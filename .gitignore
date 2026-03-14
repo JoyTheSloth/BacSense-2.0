@@ -1,0 +1,10 @@
+.gemini/
+site/
+.stitch/
+frontend/node_modules/
+frontend/dist/
+bacterial-classifier/venv/
+bacterial-classifier/__pycache__/
+*.pyc
+*.pyo
+.DS_Store

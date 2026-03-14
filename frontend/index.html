@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Bacsense 2.0 - Bacterial Classification System</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Poppins:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13a4ec",
+                        "background-light": "#f0f8ff",
+                        "background-dark": "#001233",
+                    },
+                    fontFamily: {
+                        "display": ["Poppins", "sans-serif"],
+                        "sans": ["Poppins", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    animation: {
+                        meteor: "meteor 5s linear infinite",
+                    },
+                    keyframes: {
+                        meteor: {
+                            "0%": { transform: "rotate(215deg) translateX(0)", opacity: 1 },
+                            "70%": { opacity: 1 },
+                            "100%": {
+                                transform: "rotate(215deg) translateX(-500px)",
+                                opacity: 0,
+                            },
+                        },
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glow-primary {
+            box-shadow: 0 0 20px rgba(19, 164, 236, 0.3);
+        }
+    </style>
+  </head>
+  <body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-sans selection:bg-primary/30">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
