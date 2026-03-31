@@ -1,0 +1,38 @@
+{
+  "timestamp": "2026-03-16 07:11:14",
+  "architecture": "VGG16(512) + HSV(48) + Morph(5) + LBP(59) + GLCM(24) + ChannelStats(9) + DensityGrid(16) + HuMoments(7) + Curvature(3) \u2192 PCA(243) \u2192 SVM",
+  "feature_dims": {
+    "vgg16": 512,
+    "hsv_histogram": 48,
+    "morphological": 5,
+    "lbp": 59,
+    "glcm": 24,
+    "channel_stats": 9,
+    "density_grid": 16,
+    "hu_moments": 7,
+    "curvature": 3,
+    "combined": 683,
+    "after_pca": 243
+  },
+  "best_params": {
+    "C": 100,
+    "gamma": 0.001,
+    "kernel": "rbf"
+  },
+  "cv_f1": 0.9498,
+  "test_accuracy": 0.9565,
+  "ecoli_f1": 0.9568,
+  "ecoli_recall": 0.9651,
+  "pseudomonas_f1": 0.9563,
+  "pseudomonas_recall": 0.948,
+  "training_data": {
+    "augmented_jpg": 1600,
+    "original_png": 122,
+    "total": 1722
+  },
+  "improvement_over_v1": {
+    "accuracy": "0.9536 \u2192 0.9565",
+    "pseudomonas_recall": "0.9306 \u2192 0.9480",
+    "cv_f1": "0.9262 \u2192 0.9498"
+  }
+}

@@ -1,4 +1,10 @@
-export const Results = () => {
+import type { PredictionResult } from "./UploadZone";
+
+interface ResultsProps {
+    items: PredictionResult[];
+}
+
+export const Results = ({ items }: ResultsProps) => {
     return (
         <section className="max-w-7xl mx-auto px-6 mb-24">
             <h3 className="text-3xl font-display font-bold mb-8">Classification Results</h3>
@@ -15,45 +21,34 @@ export const Results = () => {
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-200 dark:divide-slate-800 text-slate-900 dark:text-slate-100">
-                        <tr className="hover:bg-primary/5 transition-colors">
-                            <td className="px-6 py-4 text-sm font-medium">sample_a102.png</td>
-                            <td className="px-6 py-4 text-sm italic">E. coli</td>
-                            <td className="px-6 py-4">
-                                <span className="bg-green-500/10 text-green-500 text-[11px] font-bold px-2 py-0.5 rounded">98.2%</span>
-                            </td>
-                            <td className="px-6 py-4 text-sm">Negative</td>
-                            <td className="px-6 py-4 text-sm text-slate-500 dark:text-slate-400">Rod</td>
-                            <td className="px-6 py-4">
-                                <span className="bg-red-500/10 text-red-500 text-[11px] font-bold px-2 py-0.5 rounded uppercase">High Risk</span>
-                            </td>
-                        </tr>
-                        <tr className="hover:bg-primary/5 transition-colors">
-                            <td className="px-6 py-4 text-sm font-medium">sample_b405.png</td>
-                            <td className="px-6 py-4 text-sm italic">S. aureus</td>
-                            <td className="px-6 py-4">
-                                <span className="bg-green-500/10 text-green-500 text-[11px] font-bold px-2 py-0.5 rounded">96.7%</span>
-                            </td>
-                            <td className="px-6 py-4 text-sm">Positive</td>
-                            <td className="px-6 py-4 text-sm text-slate-500 dark:text-slate-400">Cocci</td>
-                            <td className="px-6 py-4">
-                                <span className="bg-orange-500/10 text-orange-500 text-[11px] font-bold px-2 py-0.5 rounded uppercase">Moderate</span>
-                            </td>
-                        </tr>
-                        <tr className="hover:bg-primary/5 transition-colors">
-                            <td className="px-6 py-4 text-sm font-medium">sample_z901.png</td>
-                            <td className="px-6 py-4 text-sm italic">B. cereus</td>
-                            <td className="px-6 py-4">
-                                <span className="bg-yellow-500/10 text-yellow-500 text-[11px] font-bold px-2 py-0.5 rounded">84.1%</span>
-                            </td>
-                            <td className="px-6 py-4 text-sm">Positive</td>
-                            <td className="px-6 py-4 text-sm text-slate-500 dark:text-slate-400">Spore-rod</td>
-                            <td className="px-6 py-4">
-                                <span className="bg-blue-500/10 text-blue-500 text-[11px] font-bold px-2 py-0.5 rounded uppercase">Low Risk</span>
-                            </td>
-                        </tr>
+                        {items.map((item, index) => {
+                            if (!item.success) return null;
+                            const risk = item.details?.pathogenicity || 'Unknown';
+                            const confColor = (item.confidence || 0) >= 80 ? 'bg-green-500/10 text-green-500' : 'bg-yellow-500/10 text-yellow-500';
+                            
+                            let riskColor = 'bg-blue-500/10 text-blue-500'; // low/unknown
+                            if (risk.toLowerCase().includes('high')) riskColor = 'bg-red-500/10 text-red-500';
+                            else if (risk.toLowerCase().includes('moderate')) riskColor = 'bg-orange-500/10 text-orange-500';
+
+                            return (
+                                <tr key={index} className="hover:bg-primary/5 transition-colors">
+                                    <td className="px-6 py-4 text-sm font-medium">{item.filename}</td>
+                                    <td className="px-6 py-4 text-sm italic">{item.prediction}</td>
+                                    <td className="px-6 py-4">
+                                        <span className={`${confColor} text-[11px] font-bold px-2 py-0.5 rounded`}>{(item.confidence || 0).toFixed(1)}%</span>
+                                    </td>
+                                    <td className="px-6 py-4 text-sm">{item.details?.gram_stain}</td>
+                                    <td className="px-6 py-4 text-sm text-slate-500 dark:text-slate-400">{item.details?.shape}</td>
+                                    <td className="px-6 py-4">
+                                        <span className={`${riskColor} text-[11px] font-bold px-2 py-0.5 rounded uppercase`}>{risk}</span>
+                                    </td>
+                                </tr>
+                            );
+                        })}
                     </tbody>
                 </table>
             </div>
         </section>
     );
 };
+
