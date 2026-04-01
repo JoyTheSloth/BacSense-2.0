@@ -1,6 +1,5 @@
-import { Routes, Route } from "react-router-dom"
+import { Route, Routes } from "react-router-dom"
 import { Header } from "./components/Header"
-import { Footer } from "./components/Footer"
 import TargetCursor from "./components/TargetCursor"
 import { HomePage } from "./pages/HomePage"
 import { DocsPage } from "./pages/DocsPage"
@@ -19,7 +18,6 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/docs" element={<DocsPage />} />
       </Routes>
-      <Footer />
     </>
   )
 }

@@ -1,9 +1,13 @@
 FROM python:3.10-slim
 
 # Install system dependencies for OpenCV and scikit-image
-RUN apt-get update && apt-get install -y \
+# We add --fix-missing to handle temporary mirror issues
+RUN apt-get update --fix-missing && apt-get install -y \
     libgl1-mesa-glx \
     libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    libxrender-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Set up a new user named "user" with user ID 1000

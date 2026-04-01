@@ -5,7 +5,290 @@ export const DocsPage = () => {
         window.scrollTo(0, 0);
     }, []);
 
-    const [activeSection, setActiveSection] = useState("quickstart");
+    const [activeSection, setActiveSection] = useState("overview");
+
+    const renderContent = () => {
+        switch (activeSection) {
+            case "overview":
+                return (
+                    <>
+                        <div className="flex items-center gap-4 mb-6">
+                            <span className="bg-[#00e599]/20 text-[#00e599] font-mono text-sm font-bold px-3 py-1 rounded border border-[#00e599]/30">V2.0</span>
+                            <h1 className="text-4xl md:text-5xl font-display font-bold text-white tracking-tight">/overview</h1>
+                        </div>
+                        <p className="text-slate-400 text-lg leading-relaxed mb-8">
+                            BacSense 2.0 is a state-of-the-art analytical system designed for the rapid identification of waterborne pathogens. 
+                            By combining Deep Learning (VGG16) with specialized Support Vector Machines (SVM) and expert-curated feature engineering, 
+                            the system achieves clinical-grade accuracy in unsupervised environments.
+                        </p>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+                            <div className="bg-[#111827] p-6 rounded-2xl border border-slate-800">
+                                <span className="material-symbols-outlined text-[#00e599] mb-4">biotech</span>
+                                <h3 className="text-white font-bold mb-2">Microscopic Precision</h3>
+                                <p className="text-sm text-slate-400">Trained on thousands of Gram-stained digital micrographs representing primary contaminants.</p>
+                            </div>
+                            <div className="bg-[#111827] p-6 rounded-2xl border border-slate-800">
+                                <span className="material-symbols-outlined text-blue-400 mb-4">bolt</span>
+                                <h3 className="text-white font-bold mb-2">Cascaded Inference</h3>
+                                <p className="text-sm text-slate-400">Routes ambiguous samples to a 683-dimensional "Specialist" evaluator for disambiguation.</p>
+                            </div>
+                        </div>
+                    </>
+                );
+            case "architecture":
+                return (
+                    <>
+                        <div className="flex items-center gap-4 mb-6">
+                            <span className="bg-[#00e599]/20 text-[#00e599] font-mono text-sm font-bold px-3 py-1 rounded border border-[#00e599]/30">V2.0</span>
+                            <h1 className="text-4xl md:text-5xl font-display font-bold text-white tracking-tight">/architecture</h1>
+                        </div>
+                        <p className="text-slate-400 text-lg leading-relaxed mb-8">
+                            The BacSense pipeline uses a hierarchical evaluation logic. High-confidence results are 
+                            processed by the main VGG16 backbone, while "confusion pairs" are escalated to the Stage 2 Specialist.
+                        </p>
+                        <div className="space-y-6">
+                            <div className="bg-[#111827] border border-slate-800 rounded-xl overflow-hidden p-6 relative">
+                                <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#00e599]"></div>
+                                <h3 className="text-lg font-bold text-white mb-2 italic">Stage 1: Frozen VGG16 Backbone</h3>
+                                <p className="text-sm text-slate-400 leading-relaxed">
+                                    Acts as the primary feature extractor. We use a modified VGG16 architecture pre-trained on ImageNet and fine-tuned on the 
+                                    Digital Image Analysis of Waterborne Pathogens (DIAWP) dataset.
+                                </p>
+                            </div>
+                            <div className="bg-[#111827] border border-slate-800 rounded-xl overflow-hidden p-6 relative">
+                                <div className="absolute left-0 top-0 bottom-0 w-1 bg-blue-500"></div>
+                                <h3 className="text-lg font-bold text-white mb-2 italic">Stage 2: Specialist RBF-SVM</h3>
+                                <p className="text-sm text-slate-400 leading-relaxed">
+                                    Invoked only when the input is identified as either E. coli or P. aeruginosa with low class separation. 
+                                    It utilizes a massive 683-dimensional feature vector combining neural and handcrafted features.
+                                </p>
+                            </div>
+                        </div>
+                    </>
+                );
+            case "pathogens":
+                return (
+                    <>
+                        <div className="flex items-center gap-4 mb-6">
+                            <span className="bg-red-500/20 text-red-500 font-mono text-sm font-bold px-3 py-1 rounded border border-red-500/30">SCOPE</span>
+                            <h1 className="text-4xl md:text-5xl font-display font-bold text-white tracking-tight">/pathogen_scope</h1>
+                        </div>
+                        <p className="text-slate-400 text-lg leading-relaxed mb-10">
+                            BacSense 2.0 is specifically optimized for five primary waterborne pathogens. Each identified species carries distinct clinical 
+                            risks and requires specific environmental interventions.
+                        </p>
+
+                        <div className="space-y-12">
+                            {/* E. coli */}
+                            <div className="relative pl-8 border-l border-slate-800">
+                                <div className="absolute -left-1.5 top-0 w-3 h-3 rounded-full bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.5)]"></div>
+                                <div className="flex flex-wrap items-center gap-4 mb-4">
+                                    <h3 className="text-2xl font-bold italic text-white">Escherichia coli</h3>
+                                    <span className="bg-red-500/10 text-red-500 text-[10px] font-bold px-2 py-0.5 rounded border border-red-500/20">HIGH RISK 🔥</span>
+                                    <span className="bg-slate-800 text-slate-400 text-[10px] font-mono px-2 py-0.5 rounded">GRAM (-)</span>
+                                    <span className="bg-slate-800 text-slate-400 text-[10px] font-mono px-2 py-0.5 rounded">ROD (BACILLUS)</span>
+                                </div>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <h4 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Identification Harm</h4>
+                                        <p className="text-sm text-slate-400 leading-relaxed">
+                                            The primary indicator of recent fecal contamination. Certain strains like O157:H7 produce Shiga toxins 
+                                            leading to severe intestinal damage, kidney failure, and hemolytic uremic syndrome.
+                                        </p>
+                                    </div>
+                                    <div className="bg-[#111827] p-4 rounded-xl border border-red-900/20">
+                                        <h4 className="text-xs font-bold text-red-500 uppercase tracking-widest mb-2">Safety Action</h4>
+                                        <p className="text-sm text-slate-400">Immediate boiling of water sources. Identify sewage breaches. Do not use for cleaning open wounds.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* P. Aeruginosa */}
+                            <div className="relative pl-8 border-l border-slate-800">
+                                <div className="absolute -left-1.5 top-0 w-3 h-3 rounded-full bg-orange-500 shadow-[0_0_10px_rgba(249,115,22,0.5)]"></div>
+                                <div className="flex flex-wrap items-center gap-4 mb-4">
+                                    <h3 className="text-2xl font-bold italic text-white">Pseudomonas aeruginosa</h3>
+                                    <span className="bg-orange-500/10 text-orange-500 text-[10px] font-bold px-2 py-0.5 rounded border border-orange-500/20">HIGH RISK ☣️</span>
+                                    <span className="bg-slate-800 text-slate-400 text-[10px] font-mono px-2 py-0.5 rounded">GRAM (-)</span>
+                                    <span className="bg-slate-800 text-slate-400 text-[10px] font-mono px-2 py-0.5 rounded">ROD (BACILLUS)</span>
+                                </div>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <h4 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Identification Harm</h4>
+                                        <p className="text-sm text-slate-400 leading-relaxed">
+                                            A multidrug-resistant opportunistic pathogen. Highly dangerous in hospital environments and for those with 
+                                            compromised immunity. Known for causing lung infections and sepsis.
+                                        </p>
+                                    </div>
+                                    <div className="bg-[#111827] p-4 rounded-xl border border-orange-900/20">
+                                        <h4 className="text-xs font-bold text-orange-500 uppercase tracking-widest mb-2">Safety Action</h4>
+                                        <p className="text-sm text-slate-400">Intensive chlorination required. Avoid eye/ear contact. Critical for burn units/ICUs to filter.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* L. Monocytogenes */}
+                            <div className="relative pl-8 border-l border-slate-800">
+                                <div className="absolute -left-1.5 top-0 w-3 h-3 rounded-full bg-purple-500 shadow-[0_0_10px_rgba(168,85,247,0.5)]"></div>
+                                <div className="flex flex-wrap items-center gap-4 mb-4">
+                                    <h3 className="text-2xl font-bold italic text-white">Listeria monocytogenes</h3>
+                                    <span className="bg-purple-500/10 text-purple-500 text-[10px] font-bold px-2 py-0.5 rounded border border-purple-500/20">CRITICAL RISK ⚠️</span>
+                                    <span className="bg-slate-800 text-slate-400 text-[10px] font-mono px-2 py-0.5 rounded">GRAM (+)</span>
+                                    <span className="bg-slate-800 text-slate-400 text-[10px] font-mono px-2 py-0.5 rounded">ROD (BACILLUS)</span>
+                                </div>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <h4 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Identification Harm</h4>
+                                        <p className="text-sm text-slate-400 leading-relaxed">
+                                            Causes Listeriosis. Extremely dangerous to pregnant women, leading to miscarriages and neonatal meningitis. 
+                                            One of the most resilient foodborne/waterborne pathogens.
+                                        </p>
+                                    </div>
+                                    <div className="bg-[#111827] p-4 rounded-xl border border-purple-900/20">
+                                        <h4 className="text-xs font-bold text-purple-500 uppercase tracking-widest mb-2">Safety Action</h4>
+                                        <p className="text-sm text-slate-400">Stop all consumption immediately. Requires pasteurization or standard heat treatment above 70°C.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* C. Perfringens */}
+                            <div className="relative pl-8 border-l border-slate-800">
+                                <div className="absolute -left-1.5 top-0 w-3 h-3 rounded-full bg-yellow-500 shadow-[0_0_10px_rgba(234,179,8,0.5)]"></div>
+                                <div className="flex flex-wrap items-center gap-4 mb-4">
+                                    <h3 className="text-2xl font-bold italic text-white">Clostridium perfringens</h3>
+                                    <span className="bg-yellow-500/10 text-yellow-500 text-[10px] font-bold px-2 py-0.5 rounded border border-yellow-500/20">PERSISTENT RISK 🧪</span>
+                                    <span className="bg-slate-800 text-slate-400 text-[10px] font-mono px-2 py-0.5 rounded">GRAM (+)</span>
+                                    <span className="bg-slate-800 text-slate-400 text-[10px] font-mono px-2 py-0.5 rounded">ROD (BACILLUS)</span>
+                                </div>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <h4 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Identification Harm</h4>
+                                        <p className="text-sm text-slate-400 leading-relaxed">
+                                            Spore-forming pathogen indicating remote/past fecal pollution. Causes gas gangrene in wounds 
+                                            and severe food poisoning due to its heat-resistant enterotoxins.
+                                        </p>
+                                    </div>
+                                    <div className="bg-[#111827] p-4 rounded-xl border border-yellow-900/20">
+                                        <h4 className="text-xs font-bold text-yellow-500 uppercase tracking-widest mb-2">Safety Action</h4>
+                                        <p className="text-sm text-slate-400">Resistant to standard chlorination. Use UV filtration or specialized nano-membrane filtering systems.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* E. Faecalis */}
+                            <div className="relative pl-8 border-l border-slate-800 pb-10">
+                                <div className="absolute -left-1.5 top-0 w-3 h-3 rounded-full bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.5)]"></div>
+                                <div className="flex flex-wrap items-center gap-4 mb-4">
+                                    <h3 className="text-2xl font-bold italic text-white">Enterococcus faecalis</h3>
+                                    <span className="bg-blue-500/10 text-blue-500 text-[10px] font-bold px-2 py-0.5 rounded border border-blue-500/20">MODERATE RISK 📉</span>
+                                    <span className="bg-slate-800 text-slate-400 text-[10px] font-mono px-2 py-0.5 rounded">GRAM (+)</span>
+                                    <span className="bg-slate-800 text-slate-400 text-[10px] font-mono px-2 py-0.5 rounded">COCCUS (SPHERE)</span>
+                                </div>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <h4 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Identification Harm</h4>
+                                        <p className="text-sm text-slate-400 leading-relaxed">
+                                            Common inhabitant of the GI tract but indicates old/prolonged fecal pollution. 
+                                            Can cause endocarditis, sepsis, and urinary tract infections in clinical settings.
+                                        </p>
+                                    </div>
+                                    <div className="bg-[#111827] p-4 rounded-xl border border-blue-900/20">
+                                        <h4 className="text-xs font-bold text-blue-500 uppercase tracking-widest mb-2">Safety Action</h4>
+                                        <p className="text-sm text-slate-400">Shock chlorination for the entire system. Discontinue source use until multi-day negative results are achieved.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </>
+                );
+            case "features":
+                return (
+                    <>
+                        <div className="flex items-center gap-4 mb-6">
+                            <span className="bg-[#00e599]/20 text-[#00e599] font-mono text-sm font-bold px-3 py-1 rounded border border-[#00e599]/30">V2.0</span>
+                            <h1 className="text-4xl md:text-5xl font-display font-bold text-white tracking-tight">/feature_metrics</h1>
+                        </div>
+                        <p className="text-slate-400 text-lg leading-relaxed mb-8">
+                            The Specialist Stage utilizes a 683-dimensional hyper-space to separate E. coli from P. aeruginosa. 
+                            This is achieved by fusing deep feature extraction with traditional computer vision metrics.
+                        </p>
+                        <div className="bg-[#111827] rounded-xl border border-slate-800 overflow-hidden mb-10">
+                            <table className="w-full text-left text-sm">
+                                <thead className="bg-[#0d131f] border-b border-slate-800 text-slate-400">
+                                    <tr>
+                                        <th className="px-5 py-3 font-semibold w-1/4">Modality</th>
+                                        <th className="px-5 py-3 font-semibold text-[#00e599] w-[15%]">Dims</th>
+                                        <th className="px-5 py-3 font-semibold">Diagnostic Utility</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-slate-800">
+                                    <tr className="hover:bg-[#0d131f]/50 transition-colors">
+                                        <td className="px-5 py-4 font-mono text-slate-300">VGG16 Block 5</td>
+                                        <td className="px-5 py-4 text-[#00e599] font-mono">512</td>
+                                        <td className="px-5 py-4 text-slate-400">Captures high-dimensional spatial correlations and macro-structure.</td>
+                                    </tr>
+                                    <tr className="hover:bg-[#0d131f]/50 transition-colors">
+                                        <td className="px-5 py-4 font-mono text-slate-300">LBP Uniform</td>
+                                        <td className="px-5 py-4 text-[#00e599] font-mono">59</td>
+                                        <td className="px-5 py-4 text-slate-400">Differentiates textures and surface roughness of bacterial clusters.</td>
+                                    </tr>
+                                    <tr className="hover:bg-[#0d131f]/50 transition-colors">
+                                        <td className="px-5 py-4 font-mono text-slate-300">HSV Distribution</td>
+                                        <td className="px-5 py-4 text-[#00e599] font-mono">48</td>
+                                        <td className="px-5 py-4 text-slate-400">Quantifies Gram-staining absorption characteristics.</td>
+                                    </tr>
+                                    <tr className="hover:bg-[#0d131f]/50 transition-colors">
+                                        <td className="px-5 py-4 font-mono text-slate-300">GLCM Matrix</td>
+                                        <td className="px-5 py-4 text-[#00e599] font-mono">24</td>
+                                        <td className="px-5 py-4 text-slate-400">Measures image homogeneity and local bacterial density.</td>
+                                    </tr>
+                                    <tr className="hover:bg-[#0d131f]/50 transition-colors">
+                                        <td className="px-5 py-4 font-mono text-slate-300">Morphological</td>
+                                        <td className="px-5 py-4 text-[#00e599] font-mono">5</td>
+                                        <td className="px-5 py-4 text-slate-400">Area, Perimeter, Circularity, Aspect Ratio and Solidity.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </>
+                );
+            case "performance":
+                return (
+                    <>
+                        <div className="flex items-center gap-4 mb-6">
+                            <span className="bg-[#00e599]/20 text-[#00e599] font-mono text-sm font-bold px-3 py-1 rounded border border-[#00e599]/30">V2.0</span>
+                            <h1 className="text-4xl md:text-5xl font-display font-bold text-white tracking-tight">/benchmarks</h1>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                            <div className="bg-[#111827] border border-slate-800 p-8 rounded-2xl flex flex-col items-center">
+                                <span className="text-5xl font-bold text-white mb-2 italic">95.65%</span>
+                                <span className="text-slate-500 uppercase tracking-widest text-xs font-bold">Accuracy (Combined)</span>
+                            </div>
+                            <div className="bg-[#111827] border border-slate-800 p-8 rounded-2xl flex flex-col items-center">
+                                <span className="text-5xl font-bold text-[#00e599] mb-2 italic">0.986</span>
+                                <span className="text-slate-500 uppercase tracking-widest text-xs font-bold">Specialist ROC-AUC</span>
+                            </div>
+                        </div>
+                        <div className="bg-[#111827] rounded-2xl border border-slate-800 p-8">
+                            <h3 className="text-xl font-bold text-white mb-6">Confusion Pair Resolution</h3>
+                            <p className="text-slate-400 mb-6 leading-relaxed text-sm">
+                                The transition from V1.0 to V2.0 focused entirely on resolving the morphology confusion between Escherichia coli and Pseudomonas aeruginosa. 
+                                In baseline VGG16 models, these pathogens overlap significantly in pixel-space. With the Stage 2 Specialist, we achieve near-perfect class separation.
+                            </p>
+                            <div className="w-full bg-[#131b2f] h-2 rounded-full overflow-hidden flex">
+                                <div className="h-full bg-[#00e599]" style={{width: '98%'}}></div>
+                            </div>
+                            <div className="flex justify-between mt-2 text-[10px] font-bold text-slate-500 uppercase">
+                                <span>Sensitivity: 97.2%</span>
+                                <span>Specificity: 98.4%</span>
+                            </div>
+                        </div>
+                    </>
+                );
+            default:
+                return null;
+        }
+    };
 
     return (
         <main className="min-h-screen bg-[#0b101e] text-slate-300 font-sans pt-20 flex">
@@ -18,17 +301,17 @@ export const DocsPage = () => {
                         <ul className="space-y-2 text-sm">
                             <li>
                                 <button 
-                                    onClick={() => setActiveSection("quickstart")}
-                                    className={`w-full text-left flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${activeSection === "quickstart" ? "text-[#00e599] bg-[#00e599]/10" : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/50"}`}
+                                    onClick={() => setActiveSection("overview")}
+                                    className={`w-full text-left flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${activeSection === "overview" ? "text-[#00e599] bg-[#00e599]/10 border border-[#00e599]/10" : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/50"}`}
                                 >
                                     <span className="material-symbols-outlined text-[18px]">verified</span>
-                                    Overview
+                                    System Overview
                                 </button>
                             </li>
                             <li>
                                 <button
                                     onClick={() => setActiveSection("architecture")}
-                                    className={`w-full text-left flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${activeSection === "architecture" ? "text-[#00e599] bg-[#00e599]/10" : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/50"}`}
+                                    className={`w-full text-left flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${activeSection === "architecture" ? "text-[#00e599] bg-[#00e599]/10 border border-[#00e599]/10" : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/50"}`}
                                 >
                                     <span className="material-symbols-outlined text-[18px]">account_tree</span>
                                     Architecture
@@ -38,25 +321,43 @@ export const DocsPage = () => {
                     </div>
 
                     <div className="mb-8">
-                        <h4 className="text-xs font-bold text-slate-500 tracking-widest uppercase mb-4">Stages</h4>
+                        <h4 className="text-xs font-bold text-slate-500 tracking-widest uppercase mb-4">Core Reference</h4>
                         <ul className="space-y-2 text-sm">
-                            <li className="flex items-center justify-between group">
-                                <button className="text-slate-400 hover:text-slate-200 px-3 py-1.5 transition-colors">Stage 1: VGG16</button>
-                                <span className="text-[10px] font-bold bg-[#00e599]/20 text-[#00e599] px-1.5 py-0.5 rounded mr-3">MAIN</span>
+                            <li>
+                                <button 
+                                    onClick={() => setActiveSection("pathogens")}
+                                    className={`w-full text-left flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${activeSection === "pathogens" ? "text-red-500 bg-red-500/10 border border-red-500/10" : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/50"}`}
+                                >
+                                    <span className="material-symbols-outlined text-[18px]">microbiology</span>
+                                    Pathogen Scope
+                                </button>
                             </li>
-                            <li className="flex items-center justify-between group">
-                                <button className="text-slate-400 hover:text-slate-200 px-3 py-1.5 transition-colors">Stage 2: Specialist</button>
-                                <span className="text-[10px] font-bold bg-[#00e599]/20 text-[#00e599] px-1.5 py-0.5 rounded mr-3">V2</span>
+                            <li>
+                                <button 
+                                    onClick={() => setActiveSection("features")}
+                                    className={`w-full text-left flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${activeSection === "features" ? "text-[#00e599] bg-[#00e599]/10 border border-[#00e599]/10" : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/50"}`}
+                                >
+                                    <span className="material-symbols-outlined text-[18px]">token</span>
+                                    Feature Specs
+                                </button>
+                            </li>
+                            <li>
+                                <button 
+                                    onClick={() => setActiveSection("performance")}
+                                    className={`w-full text-left flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${activeSection === "performance" ? "text-[#00e599] bg-[#00e599]/10 border border-[#00e599]/10" : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/50"}`}
+                                >
+                                    <span className="material-symbols-outlined text-[18px]">monitoring</span>
+                                    Benchmarks
+                                </button>
                             </li>
                         </ul>
                     </div>
 
                     <div>
-                        <h4 className="text-xs font-bold text-slate-500 tracking-widest uppercase mb-4">Reference</h4>
-                        <ul className="space-y-3 text-sm">
-                            <li><button className="text-slate-400 hover:text-slate-200 px-3 transition-colors">Feature Engineering</button></li>
-                            <li><button className="text-slate-400 hover:text-slate-200 px-3 transition-colors">Pathogen Scope</button></li>
-                            <li><button className="text-slate-400 hover:text-slate-200 px-3 transition-colors">Performance</button></li>
+                        <h4 className="text-xs font-bold text-slate-500 tracking-widest uppercase mb-4">API</h4>
+                        <ul className="space-y-2 text-sm">
+                            <li className="flex items-center gap-2 px-3 py-1.5 opacity-50"><span className="w-1.5 h-1.5 rounded-full bg-slate-600"></span> /predict_batch</li>
+                            <li className="flex items-center gap-2 px-3 py-1.5 opacity-50"><span className="w-1.5 h-1.5 rounded-full bg-slate-600"></span> /health</li>
                         </ul>
                     </div>
                 </div>
@@ -67,124 +368,11 @@ export const DocsPage = () => {
                 
                 {/* Center Document */}
                 <div className="flex-1 max-w-4xl px-8 py-10 lg:px-12 pb-24">
-                    
-                    <div className="flex items-center gap-4 mb-6">
-                        <span className="bg-[#00e599]/20 text-[#00e599] font-mono text-sm font-bold px-3 py-1 rounded border border-[#00e599]/30">V2.0</span>
-                        <h1 className="text-4xl md:text-5xl font-display font-bold text-white tracking-tight">/architecture</h1>
-                    </div>
-
-                    <p className="text-slate-400 text-lg leading-relaxed mb-8">
-                        The primary architecture used by the BacSense classification pipeline. Takes an input microscopy image, runs a two-stage cascaded hybrid evaluation (VGG16 + Hand-Crafted Features), and returns the predicted bacterial species with confidence metrics.
-                    </p>
-
-                    <div className="flex items-center gap-3 bg-[#131b2f] border border-slate-700/50 rounded-lg px-4 py-3 mb-12 font-mono text-sm text-slate-300 w-fit">
-                        <span className="material-symbols-outlined text-[#00e599] text-[18px]">bolt</span>
-                        <span className="text-slate-500">BASE MODEL:</span>
-                        <span className="text-[#00e599]">Cascaded_Hybrid_Classifier</span>
-                    </div>
-
-                    <div className="mb-12 relative">
-                        <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#00e599] rounded-full"></div>
-                        <h2 className="text-2xl font-bold text-white mb-6 pl-5">Pipeline Execution — /predict</h2>
-                        
-                        <div className="bg-[#111827] border border-slate-800 rounded-xl overflow-hidden mb-6">
-                            <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] divide-y md:divide-y-0 md:divide-x divide-slate-800">
-                                <div className="p-5 flex flex-col justify-center">
-                                    <div className="flex items-center justify-between mb-2">
-                                        <code className="text-blue-400 font-bold">Image</code>
-                                        <span className="text-xs text-slate-500 font-semibold tracking-wider">FILE | REQUIRED</span>
-                                    </div>
-                                    <p className="text-sm text-slate-400">Microscopy image of water sample.</p>
-                                </div>
-                                <div className="p-5 flex flex-col justify-center bg-[#0d131f]">
-                                    <p className="text-sm text-slate-300">Accepted formats: .jpg, .jpeg, .png. Image should contain clearly visible Gram-stained bacterial formations.</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="bg-[#111827] border border-slate-800 rounded-xl overflow-hidden mb-6">
-                            <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] divide-y md:divide-y-0 md:divide-x divide-slate-800">
-                                <div className="p-5 flex flex-col justify-center">
-                                    <div className="flex items-center justify-between mb-2">
-                                        <code className="text-blue-400 font-bold">Stage 1: VGG16</code>
-                                        <span className="text-xs text-slate-500 font-semibold tracking-wider">NET | CORE</span>
-                                    </div>
-                                    <p className="text-sm text-slate-400">Main Classifier Backbone.</p>
-                                </div>
-                                <div className="p-5 flex flex-col justify-center bg-[#0d131f]">
-                                    <p className="text-sm text-slate-300">Outputs a 5-class prediction. If confidence is &lt;90% on E.coli/P.aeruginosa, it triggers the specialist.</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="bg-[#111827] border border-slate-800 rounded-xl overflow-hidden">
-                            <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] divide-y md:divide-y-0 md:divide-x divide-slate-800">
-                                <div className="p-5 flex flex-col justify-center">
-                                    <div className="flex items-center justify-between mb-2">
-                                        <code className="text-blue-400 font-bold">Stage 2: Specialist</code>
-                                        <span className="text-xs text-slate-500 font-semibold tracking-wider">SVM | CONDITIONAL</span>
-                                    </div>
-                                    <p className="text-sm text-slate-400">683-dim RBF-SVM Evaluator.</p>
-                                </div>
-                                <div className="p-5 flex flex-col justify-center bg-[#0d131f]">
-                                    <p className="text-sm text-slate-300">Explicitly formulated to differentiate E. coli and P. aeruginosa using hand-crafted and deep features.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Specialist Features Scope */}
-                    <div className="mb-12 relative">
-                        <div className="absolute left-0 top-0 bottom-0 w-1 bg-blue-500 rounded-full"></div>
-                        <h2 className="text-2xl font-bold text-white mb-6 pl-5">Specialist Matrix — /features</h2>
-                        <div className="bg-[#111827] rounded-xl border border-slate-800 overflow-hidden">
-                            <table className="w-full text-left text-sm">
-                                <thead className="bg-[#0d131f] border-b border-slate-800 text-slate-400">
-                                    <tr>
-                                        <th className="px-5 py-3 font-semibold w-1/4">Modality</th>
-                                        <th className="px-5 py-3 font-semibold text-[#00e599] w-[15%]">Dims</th>
-                                        <th className="px-5 py-3 font-semibold">Target Signal</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-slate-800">
-                                    <tr className="hover:bg-[#0d131f]/50 transition-colors">
-                                        <td className="px-5 py-4 font-mono text-slate-300">VGG16 FC</td>
-                                        <td className="px-5 py-4 text-[#00e599] font-mono">512</td>
-                                        <td className="px-5 py-4 text-slate-400">High-level semantic structural gradients.</td>
-                                    </tr>
-                                    <tr className="hover:bg-[#0d131f]/50 transition-colors">
-                                        <td className="px-5 py-4 font-mono text-slate-300">LBP Hist</td>
-                                        <td className="px-5 py-4 text-[#00e599] font-mono">59</td>
-                                        <td className="px-5 py-4 text-slate-400">Local texture micro-aggregations for biofilms.</td>
-                                    </tr>
-                                    <tr className="hover:bg-[#0d131f]/50 transition-colors">
-                                        <td className="px-5 py-4 font-mono text-slate-300">HSV Bins</td>
-                                        <td className="px-5 py-4 text-[#00e599] font-mono">48</td>
-                                        <td className="px-5 py-4 text-slate-400">Staining saturation and intensity variation.</td>
-                                    </tr>
-                                    <tr className="hover:bg-[#0d131f]/50 transition-colors">
-                                        <td className="px-5 py-4 font-mono text-slate-300">GLCM</td>
-                                        <td className="px-5 py-4 text-[#00e599] font-mono">24</td>
-                                        <td className="px-5 py-4 text-slate-400">Co-occurrence measurements for density changes.</td>
-                                    </tr>
-                                    <tr className="hover:bg-[#0d131f]/50 transition-colors">
-                                        <td className="px-5 py-4 font-mono text-slate-300">Spatial</td>
-                                        <td className="px-5 py-4 text-[#00e599] font-mono">16</td>
-                                        <td className="px-5 py-4 text-slate-400">4x4 raster grid assessing clustering severity.</td>
-                                    </tr>
-                                    <tr className="hover:bg-[#0d131f]/50 transition-colors">
-                                        <td className="px-5 py-4 font-mono text-slate-300">Morphology</td>
-                                        <td className="px-5 py-4 text-[#00e599] font-mono">5</td>
-                                        <td className="px-5 py-4 text-slate-400">Area, Perimeter, Circularity, Aspect Ratios.</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                    {renderContent()}
                 </div>
 
-                {/* Right Column / API Info */}
-                <div className="w-full xl:w-[400px] flex-shrink-0 bg-[#0b101e] xl:border-l border-slate-800/60 p-6 xl:p-8 xl:overflow-y-auto">
+                {/* Right Column / Quick JSON Preview (Static) */}
+                <div className="w-full xl:w-[400px] flex-shrink-0 bg-[#0c1221]/50 xl:border-l border-slate-800/60 p-6 xl:p-8 xl:overflow-y-auto">
                     
                     {/* JSON Block */}
                     <div className="bg-[#141b2d] rounded-xl border border-slate-700/60 overflow-hidden mb-10 shadow-2xl">
@@ -194,95 +382,55 @@ export const DocsPage = () => {
                                 <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
                                 <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
                             </div>
-                            <span className="text-xs text-slate-500 font-mono ml-2 uppercase tracking-wider">RESPONSE JSON — /predict</span>
+                            <span className="text-[10px] text-slate-500 font-mono ml-2 uppercase tracking-widest">SAMPLE_RESPONSE.JSON</span>
                         </div>
-                        <div className="p-5 font-mono text-sm overflow-x-auto text-slate-300">
-                            <pre className="!bg-transparent !m-0 !p-0">
-                                <code>
-<span className="text-slate-400">{`{`}</span>{`\n`}
-{`  `}<span className="text-blue-300">"prediction"</span>{`: `}<span className="text-orange-300">"Escherichia coli"</span>{`,\n`}
-{`  `}<span className="text-blue-300">"confidence"</span>{`: `}<span className="text-purple-400">0.982</span>{`,\n`}
-{`  `}<span className="text-blue-300">"risk_level"</span>{`: `}<span className="text-[#00e599]">"HIGH"</span>{`,\n`}
-{`  `}<span className="text-blue-300">"routed_to_specialist"</span>{`: `}<span className="text-orange-400">true</span>{`,\n`}
-{`  `}<span className="text-blue-300">"characteristics"</span>{`: {\n`}
-{`    `}<span className="text-blue-300">"gram_stain"</span>{`: `}<span className="text-orange-300">"Negative (-)"</span>{`,\n`}
-{`    `}<span className="text-blue-300">"morphology"</span>{`: `}<span className="text-orange-300">"Rod (Bacillus)"</span>{`\n`}
-{`  `}<span className="text-slate-400">{`}\n`}</span>
-<span className="text-slate-400">{`}`}</span>
-                                </code>
-                            </pre>
+                        <div className="p-5 font-mono text-[12px] overflow-x-auto text-slate-400">
+<pre className="!bg-transparent !m-0 !p-0 leading-relaxed">
+<code>
+{`{`}
+{`  "prediction": "Escherichia coli",`}
+{`  "confidence": 98.2,`}
+{`  "risk": "HIGH",`}
+{`  "characteristics": {`}
+{`    "gram": "Negative (-)",`}
+{`    "shape": "Rod"`}
+{`  },`}
+{`  "success": true`}
+{`}`}
+</code>
+</pre>
                         </div>
                     </div>
 
-                    {/* Configuration / Quick Ref */}
-                    <div className="mb-10">
-                        <h4 className="text-[11px] font-bold text-[#00e599] tracking-widest uppercase mb-4">Configuration</h4>
-                        
-                        <div className="mb-6">
-                            <h5 className="text-sm font-semibold text-white mb-2 flex items-center gap-2">
-                                <span className="material-symbols-outlined text-[18px]">rule</span>
-                                Decision Rules
-                            </h5>
-                            <p className="text-sm text-slate-400 leading-relaxed mb-3">
-                                The system dynamically routes ambiguously predicted inputs to the Specialist RBF-SVM if the primary confidence threshold is not met.
-                            </p>
-                            <code className="text-xs bg-slate-800/80 text-blue-300 px-2 py-1 rounded inline-block">&gt; confidence &lt; 0.90</code>
+                    <div className="space-y-8">
+                        <div>
+                            <h4 className="text-[10px] font-bold text-slate-500 tracking-widest uppercase mb-4 italic">Neural Backbone</h4>
+                            <div className="flex items-center justify-between text-xs font-mono">
+                                <span className="text-slate-400">Model:</span>
+                                <span className="text-blue-400">VGG16-CASCADED</span>
+                            </div>
                         </div>
 
                         <div>
-                            <h5 className="text-sm font-semibold text-white mb-2 flex items-center gap-2">
-                                <span className="material-symbols-outlined text-[18px]">speed</span>
-                                Performance Profile
-                            </h5>
-                            <p className="text-sm text-slate-400 leading-relaxed">
-                                Base Accuracy: 95.65%<br/>
-                                Specialist AUC: 0.9863<br/>
-                                Avg Latency: &lt; 850ms / image
-                            </p>
+                            <h4 className="text-[10px] font-bold text-slate-500 tracking-widest uppercase mb-4 italic">Feature Space</h4>
+                            <div className="flex items-center justify-between text-xs font-mono">
+                                <span className="text-slate-400">Dimensions:</span>
+                                <span className="text-[#00e599]">683-DIM</span>
+                            </div>
                         </div>
-                    </div>
 
-                    {/* Quick Reference Table */}
-                    <div className="mb-10">
-                        <h4 className="text-[11px] font-bold text-[#00e599] tracking-widest uppercase mb-4">Quick Reference</h4>
-                        
-                        <div className="space-y-4 text-sm border-t border-slate-800 pt-4">
-                            <div className="flex justify-between items-center">
-                                <span className="text-slate-500">Architecture</span>
-                                <span className="text-slate-300 font-mono bg-slate-800/50 px-2 py-0.5 rounded">VGG16 + SVM</span>
+                        <div>
+                            <h4 className="text-[10px] font-bold text-slate-500 tracking-widest uppercase mb-4 italic">Environment</h4>
+                            <div className="flex items-center justify-between text-xs font-mono">
+                                <span className="text-slate-400">Runtime:</span>
+                                <span className="text-orange-400">Python 3.11</span>
                             </div>
-                            <div className="flex justify-between items-center">
-                                <span className="text-slate-500">Feature Dims</span>
-                                <span className="text-slate-300 font-mono bg-slate-800/50 px-2 py-0.5 rounded">683 (Specialist)</span>
-                            </div>
-                            <div className="flex justify-between items-center">
-                                <span className="text-slate-500">Classes Supported</span>
-                                <span className="text-slate-300 font-mono bg-slate-800/50 px-2 py-0.5 rounded">5 Pathogens</span>
-                            </div>
-                            <div className="flex justify-between items-center">
-                                <span className="text-slate-500">Version</span>
-                                <span className="text-[#00e599] font-bold font-mono bg-[#00e599]/10 px-2 py-0.5 rounded">V2.0 STABLE</span>
+                            <div className="flex items-center justify-between text-xs font-mono mt-2">
+                                <span className="text-slate-400">Backend:</span>
+                                <span className="text-orange-400">FastAPI / HF-Spaces</span>
                             </div>
                         </div>
                     </div>
-
-                    {/* Changelog */}
-                    <div>
-                        <h4 className="text-[11px] font-bold text-[#00e599] tracking-widest uppercase mb-4">Changelog</h4>
-                        <div className="relative pl-4 border-l-2 border-slate-800 pb-2 space-y-6">
-                            <div className="relative">
-                                <div className="absolute -left-[21px] top-1 w-2.5 h-2.5 rounded-full bg-[#00e599] ring-4 ring-[#0b101e]"></div>
-                                <h5 className="text-white text-sm font-bold mb-1">V2.0 — Cascaded Network</h5>
-                                <p className="text-xs text-slate-400">Added Binary RBF-SVM Specialist trained on 683-dim feature vectors to resolve E.coli vs P.aeruginosa confusion pairs.</p>
-                            </div>
-                            <div className="relative">
-                                <div className="absolute -left-[21px] top-1 w-2.5 h-2.5 rounded-full bg-slate-600 ring-4 ring-[#0b101e]"></div>
-                                <h5 className="text-slate-300 text-sm font-bold mb-1">V1.0 — Baseline Release</h5>
-                                <p className="text-xs text-slate-500">Initial frozen VGG16 backbone extracting features mapped to PCA-reduced 94-dimensional RBF Support Vector Machine.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="h-10"></div>
                 </div>
             </div>
             
@@ -297,8 +445,11 @@ export const DocsPage = () => {
                     background-color: #1e293b;
                     border-radius: 10px;
                 }
+                @font-face {
+                    font-family: 'Space Grotesk';
+                    src: url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+                }
             `}} />
         </main>
     );
 };
-

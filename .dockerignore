@@ -1,0 +1,16 @@
+# Ignore everything first
+**
+
+# Allow only what is needed for the backend
+!bacsense_v2_package/
+!bacterial-classifier/
+!requirements.txt
+!Dockerfile
+
+# Specifically ignore heavy subfolders even in allowed ones
+**/node_modules/
+**/venv/
+**/.git/
+**/.next/
+**/dist/
+**/__pycache__/
