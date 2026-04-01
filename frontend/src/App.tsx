@@ -3,6 +3,7 @@ import { Header } from "./components/Header"
 import TargetCursor from "./components/TargetCursor"
 import { HomePage } from "./pages/HomePage"
 import { DocsPage } from "./pages/DocsPage"
+import { AboutPage } from "./pages/AboutPage"
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/docs" element={<DocsPage />} />
+        <Route path="/about" element={<AboutPage />} />
       </Routes>
     </>
   )
