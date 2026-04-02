@@ -20,7 +20,7 @@ warnings.filterwarnings("ignore")
 def _lazy_imports():
     from scipy.stats import skew
     from skimage.feature import local_binary_pattern, graycomatrix, graycoprops
-    from tensorflow.keras.models import load_model
+    from keras.models import load_model
     return skew, local_binary_pattern, graycomatrix, graycoprops, load_model
 
 

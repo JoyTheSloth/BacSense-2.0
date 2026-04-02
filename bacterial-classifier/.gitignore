@@ -1,7 +1,0 @@
-__pycache__/
-*.pyc
-venv/
-temp_*.jpg
-temp_*.png
-temp_*.jpeg
-.DS_Store
