@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 export interface PredictionResult {
     filename?: string;
@@ -31,10 +31,23 @@ export const UploadZone = ({ onResultsGenerated }: UploadZoneProps) => {
     const [files, setFiles] = useState<File[]>([]);
     const [isUploading, setIsUploading] = useState(false);
     const [progress, setProgress] = useState(0);
+    const [estimatedTime, setEstimatedTime] = useState<number | null>(null);
+    const [isFirstRun, setIsFirstRun] = useState(true);
     const [localResults, setLocalResults] = useState<PredictionResult[] | null>(null);
     const [selectedResult, setSelectedResult] = useState<PredictionResult | null>(null);
     const [error, setError] = useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
+
+    // Timer logic to update estimated time every second
+    useEffect(() => {
+        let interval: any;
+        if (isUploading && estimatedTime !== null && estimatedTime > 0) {
+            interval = setInterval(() => {
+                setEstimatedTime(prev => (prev !== null && prev > 0) ? prev - 1 : 0);
+            }, 1000);
+        }
+        return () => clearInterval(interval);
+    }, [isUploading, estimatedTime]);
 
     const handleFiles = async (selectedFiles: FileList | File[]) => {
         const fileArray = Array.from(selectedFiles);
@@ -42,6 +55,10 @@ export const UploadZone = ({ onResultsGenerated }: UploadZoneProps) => {
         
         setFiles(fileArray);
         
+        // Estimate time: ~4 seconds per image + 60s for cold start (first run)
+        const perImageTime = 4;
+        const coldStartTime = isFirstRun ? 60 : 5;
+        setEstimatedTime(Math.ceil(fileArray.length * perImageTime + coldStartTime));
         // Generate preview URLs
         const previewUrls = fileArray.map(f => URL.createObjectURL(f));
         
@@ -89,6 +106,8 @@ export const UploadZone = ({ onResultsGenerated }: UploadZoneProps) => {
             setError(err.message || "An error occurred");
         } finally {
             setIsUploading(false);
+            setEstimatedTime(null);
+            setIsFirstRun(false); // After one successful run, cold start is over
         }
     };
 
@@ -143,10 +162,17 @@ export const UploadZone = ({ onResultsGenerated }: UploadZoneProps) => {
                             <div className="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
                                 <div className="h-full bg-primary rounded-full transition-all duration-300" style={{ width: `${progress}%` }}></div>
                             </div>
-                            <p className="text-xs text-slate-500 mt-3 flex items-center gap-1">
-                                <span className="material-symbols-outlined text-[14px] animate-spin">sync</span>
-                                Analyzing morphological features...
-                            </p>
+                            <div className="flex items-center justify-between mt-3 gap-1">
+                                <p className="text-xs text-slate-500 flex items-center gap-1">
+                                    <span className="material-symbols-outlined text-[14px] animate-spin">sync</span>
+                                    {isFirstRun && progress < 50 ? "Initializing VGG16 model (this may take ~60s)..." : "Analyzing morphological features..."}
+                                </p>
+                                {estimatedTime !== null && estimatedTime > 0 && (
+                                    <p className="text-xs font-bold text-primary whitespace-nowrap bg-primary/10 px-2 py-0.5 rounded-lg animate-pulse">
+                                        ~{estimatedTime}s remaining
+                                    </p>
+                                )}
+                            </div>
                         </div>
                     )}
                     
