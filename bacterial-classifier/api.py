@@ -27,6 +27,25 @@ model_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'bacse
 classifier = BacSense(model_dir=model_dir)
 classifier.warmup()
 
+@app.get("/")
+async def root():
+    return {
+        "service": "BacSense API",
+        "version": "2.0",
+        "status": "running",
+        "docs": "/docs",
+        "endpoints": {
+            "predict": "/predict_batch (POST)",
+            "health": "/health"
+        }
+    }
+
+
+@app.get("/health")
+async def health():
+    return {"status": "ok", "backend": "Hugging Face Space"}
+
+
 @app.post("/predict_batch")
 async def predict_batch(files: List[UploadFile] = File(...)):
     if not files or len(files) == 0:
